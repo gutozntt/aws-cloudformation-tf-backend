@@ -1,6 +1,6 @@
 # Set Up your Terraform Backend
 
-Create a stack with this template to create a DynamoDB Lock Table and a S3 Bucket to store the Terraform State files.
+Create a CloudFormation Stack with this template to create a DynamoDB Lock Table and a S3 Bucket to store the Terraform State files.
 
 ## After run the template
 
