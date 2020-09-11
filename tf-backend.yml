@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Terraform S3 Backend and DynamoDB Lock Table
+Resources:
+  # Terraform State Backend
+  TerraformStateBucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Ref AWS::StackName
+      AccessControl: "Private"
+      VersioningConfiguration:
+        Status: Enabled
+  TerraformStateTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "LockID"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "LockID"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+      TableName: !Ref AWS::StackName
+
+Outputs:
+  TerraformStateBucketOutput:
+    Description: Bucket used to store Terraform remote state file
+    Value: !Ref TerraformStateBucket
+  TerraformStateTableOutput:
+    Description: DynamoDB table used for Terraform state locking functionality
+    Value: !Ref TerraformStateTable
